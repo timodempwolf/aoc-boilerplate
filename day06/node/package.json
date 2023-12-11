@@ -1,0 +1,14 @@
+{
+  "name": "aoc",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "ava"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^6.0.0"
+  }
+}
