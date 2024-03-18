@@ -30,12 +30,15 @@ pub fn main() !void {
     //var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     //defer _ = gpa.deinit();
     //const allocator = gpa.allocator();
+
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer _ = arena.deinit();
     const allocator = arena.allocator();
+
     const start = std.time.nanoTimestamp();
     const result = try calculate("../input.txt", allocator);
     const end = std.time.nanoTimestamp();
+
     print("Part 1 - Result: {s}\n", .{result});
     print("Part 1 - Time: {d:.3} μs\n", .{@as(f64, @floatFromInt((end - start))) / 1000});
 }
