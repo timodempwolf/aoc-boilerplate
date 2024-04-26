@@ -15,11 +15,9 @@ fn calculate(path: []const u8, allocator: Allocator) ![]const u8 {
     const content = try readFile(path, allocator);
     var result: u32 = 0;
 
-    var it = std.mem.split(u8, content, "\n");
+    var it = std.mem.tokenizeScalar(u8, content, '\n');
     while (it.next()) |line| {
-        if (line.len == 0) {
-            continue;
-        }
+        _ = line;
         result = 0;
     }
     const result_str = try std.fmt.allocPrint(allocator, "{d}", .{result});
@@ -39,8 +37,23 @@ pub fn main() !void {
     const result = try calculate("../input.txt", allocator);
     const end = std.time.nanoTimestamp();
 
-    print("Part 1 - Result: {s}\n", .{result});
-    print("Part 1 - Time: {d:.3} μs\n", .{@as(f64, @floatFromInt((end - start))) / 1000});
+    printResult("Part 1", result, start, end);
+}
+
+fn printResult(part: []const u8, result: []const u8, start: i128, end: i128) void {
+    print("{s} - Result: {s}\n", .{ part, result });
+    const time = @as(f64, @floatFromInt((end - start)));
+    if (time > 1000 * 1000 * 1000 * 60) {
+        print("{s} - Time: {d:.3} min\n", .{ part, time / (1000 * 1000 * 1000 * 60) });
+    } else if (time > 1000 * 1000 * 1000) {
+        print("{s} - Time: {d:.3} s  \n", .{ part, time / (1000 * 1000 * 1000) });
+    } else if (time > 1000 * 1000) {
+        print("{s} - Time: {d:.3} ms \n", .{ part, time / (1000 * 1000) });
+    } else if (time > 1000) {
+        print("{s} - Time: {d:.3} μs \n", .{ part, time / 1000 });
+    } else {
+        print("{s} - Time: {d:.3} ns \n", .{ part, time });
+    }
 }
 
 test "Part 1" {
