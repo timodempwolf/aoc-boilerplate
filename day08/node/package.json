@@ -4,11 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "test": "ava"
+    "both": "node part1.js && node part2.js"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "ava": "^6.0.0"
-  }
+  "license": "ISC"
 }

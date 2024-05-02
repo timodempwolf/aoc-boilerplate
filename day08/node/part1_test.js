@@ -1,6 +1,7 @@
-import test from 'ava';
+import assert from 'node:assert';
+import test from 'node:test';
 import { calculate } from './part1.js';
 
-test('Task 1', t => {
-  t.is(calculate("../example.txt"), "374")
+test('it works', () => {
+  assert.strictEqual(calculate("../example.txt"), "fixme")
 })

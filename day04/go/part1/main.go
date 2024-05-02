@@ -3,8 +3,8 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -12,7 +12,7 @@ func calculate(filepath string) (string, time.Duration) {
 	start := time.Now()
 	file, err := os.Open(filepath)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer file.Close()
 
@@ -20,7 +20,10 @@ func calculate(filepath string) (string, time.Duration) {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
+
+		// BEGIN TO DELETE
 		fmt.Println(line)
+		// END TO DELETE
 	}
 	elapsed := time.Since(start)
 	return fmt.Sprintf("%v", result), elapsed
@@ -28,9 +31,7 @@ func calculate(filepath string) (string, time.Duration) {
 
 func main() {
 	result, elapsed := calculate("../input.txt")
-	if result[len(result)-1] != '\n' {
-		result += "\n"
-	}
-	fmt.Printf("Result:\n%s", result)
+
+	fmt.Printf("Result:\n%s\n", strings.TrimRight(result, " \t\r\n"))
 	fmt.Printf("Execution time: %s\n", elapsed)
 }
