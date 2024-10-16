@@ -1,7 +1,7 @@
 import time
 
 
-def calculate(path):
+def calculate(path: str) -> str:
     with open(path, "r") as f:
         lines = f.readlines()
         result = 0

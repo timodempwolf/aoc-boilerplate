@@ -4,7 +4,8 @@ import part2
 
 class TestStringMethods(unittest.TestCase):
     def test_calculate(self):
-        self.assertEqual(part2.calculate("../example.txt"), "fixme")
+        expected = "fixme"
+        self.assertEqual(part2.calculate("../example.txt"), expected)
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ pub fn build(b: *std.Build) void {
         .name = "part1",
         // In this case the main source file is merely a path, however, in more
         // complicated build scripts, this could be a generated file.
-        .root_source_file = .{ .path = "src/part1.zig" },
+        .root_source_file = .{ .cwd_relative = "src/part1.zig" },
         .target = target,
         .optimize = optimize,
     });
@@ -28,7 +28,7 @@ pub fn build(b: *std.Build) void {
         .name = "part2",
         // In this case the main source file is merely a path, however, in more
         // complicated build scripts, this could be a generated file.
-        .root_source_file = .{ .path = "src/part2.zig" },
+        .root_source_file = .{ .cwd_relative = "src/part2.zig" },
         .target = target,
         .optimize = optimize,
     });
@@ -77,12 +77,12 @@ pub fn build(b: *std.Build) void {
     // Creates a step for unit testing. This only builds the test executable
     // but does not run it.
     const part1_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/part1.zig" },
+        .root_source_file = .{ .cwd_relative = "src/part1.zig" },
         .target = target,
         .optimize = optimize,
     });
     const part2_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/part2.zig" },
+        .root_source_file = .{ .cwd_relative = "src/part2.zig" },
         .target = target,
         .optimize = optimize,
     });

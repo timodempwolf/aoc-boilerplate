@@ -19,14 +19,11 @@ export function calculate(path) {
   return result.toString()
 }
 
-if (import.meta.url.startsWith('file:')) {
-  const modulePath = url.fileURLToPath(import.meta.url);
-  if (process.argv[1] === modulePath) {
-    const start = performance.now()
-    let result = calculate("../input.txt")
-    const end = performance.now()
+if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
+  const start = performance.now()
+  let result = calculate("../input.txt")
+  const end = performance.now()
 
-    console.log(`Result:\n${result.trimEnd()}`)
-    console.log(`Execution time: ${(end - start).toFixed(3)} ms`)
-  }
+  console.log(`Result:\n${result.trimEnd()}`)
+  console.log(`Execution time: ${(end - start).toFixed(3)} ms`)
 }

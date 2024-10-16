@@ -41,7 +41,8 @@ mod tests {
 
     #[test]
     fn it_works() {
+        let expected = "fixme";
         let result = calculate("../example.txt");
-        assert_eq!(result, "fixme");
+        assert_eq!(result, expected);
     }
 }

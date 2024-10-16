@@ -1,0 +1,14 @@
+{
+  "name": "aoc",
+  "module": "part1.js",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "scripts": {
+    "part1": "bun ./part1.js",
+    "part2": "bun ./part2.js",
+    "test-part1": "bun test ./part1.test.js",
+    "test-part2": "bun test ./part2.test.js"
+  },
+  "type": "module"
+}
