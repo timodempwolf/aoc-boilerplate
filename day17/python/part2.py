@@ -1,4 +1,5 @@
 import time
+from utils import print_execution_time
 
 
 def calculate(path: str) -> str:
@@ -6,6 +7,7 @@ def calculate(path: str) -> str:
         lines = f.readlines()
         result = 0
         for line in lines:
+            line = line.rstrip()
             # BEGIN TO DELETE
             result = len(line)
             # END TO DELETE
@@ -17,5 +19,5 @@ if __name__ == "__main__":
     result = calculate("../input.txt")
     end = time.time_ns()
 
-    print(f"Result:\n{result.rstrip(" \t\r\n")}")
-    print(f"Execution time: {(end - start)/1000000:.3f} ms")
+    print(f"Result:\n{result.rstrip()}")
+    print_execution_time(start, end)
