@@ -7,6 +7,6 @@ def print_execution_time(start, end):
     elif time > 1000 * 1000:
         print(f"Execution time: {time/(1000 * 1000):.3f} ms")
     elif time > 1000:
-        print(f"Execution time: {time/(1000):.3f} μs")
+        print(f"Execution time: {time/1000:.3f} μs")
     else:
-        print(f"Execution time: {time/(1000):.3f} ns")
+        print(f"Execution time: {time:.3f} ns")
