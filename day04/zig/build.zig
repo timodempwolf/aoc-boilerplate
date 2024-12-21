@@ -39,6 +39,28 @@ pub fn build(b: *std.Build) void {
     b.installArtifact(part1);
     b.installArtifact(part2);
 
+    const part1_check = b.addExecutable(.{
+        .name = "part1",
+        // In this case the main source file is merely a path, however, in more
+        // complicated build scripts, this could be a generated file.
+        .root_source_file = .{ .cwd_relative = "src/part1.zig" },
+        .target = target,
+        .optimize = optimize,
+    });
+
+    const part2_check = b.addExecutable(.{
+        .name = "part2",
+        // In this case the main source file is merely a path, however, in more
+        // complicated build scripts, this could be a generated file.
+        .root_source_file = .{ .cwd_relative = "src/part2.zig" },
+        .target = target,
+        .optimize = optimize,
+    });
+
+    const check = b.step("check", "Check if foo compiles");
+    check.dependOn(&part1_check.step);
+    check.dependOn(&part2_check.step);
+
     // This *creates* a Run step in the build graph, to be executed when another
     // step is evaluated that depends on it. The next line below will establish
     // such a dependency.
