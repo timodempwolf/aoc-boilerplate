@@ -45,7 +45,7 @@ pub fn build(b: *std.Build) void {
         // complicated build scripts, this could be a generated file.
         .root_source_file = .{ .cwd_relative = "src/part1.zig" },
         .target = target,
-        .optimize = optimize,
+        .optimize = .Debug,
     });
 
     const part2_check = b.addExecutable(.{
@@ -54,10 +54,10 @@ pub fn build(b: *std.Build) void {
         // complicated build scripts, this could be a generated file.
         .root_source_file = .{ .cwd_relative = "src/part2.zig" },
         .target = target,
-        .optimize = optimize,
+        .optimize = .Debug,
     });
 
-    const check = b.step("check", "Check if foo compiles");
+    const check = b.step("check", "Check if all parts compile");
     check.dependOn(&part1_check.step);
     check.dependOn(&part2_check.step);
 
@@ -68,12 +68,6 @@ pub fn build(b: *std.Build) void {
     const run_part2 = b.addRunArtifact(part2);
     const run_part2_dependend = b.addRunArtifact(part2);
 
-    // By making the run step depend on the install step, it will be run from the
-    // installation directory rather than directly from within the cache directory.
-    // This is not necessary, however, if the application depends on other installed
-    // files, this ensures they will be present and in the expected location.
-    run_part1.step.dependOn(b.getInstallStep());
-    run_part2.step.dependOn(b.getInstallStep());
     run_part2_dependend.step.dependOn(&run_part1.step);
 
     // This allows the user to pass arguments to the application in the build
