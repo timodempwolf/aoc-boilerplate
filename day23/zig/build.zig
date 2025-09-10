@@ -15,22 +15,26 @@ pub fn build(b: *std.Build) void {
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{ .preferred_optimize_mode = .ReleaseSafe });
 
-    const part1 = b.addExecutable(.{
-        .name = "part1",
-        // In this case the main source file is merely a path, however, in more
-        // complicated build scripts, this could be a generated file.
+    const part1_mod = b.addModule("part1", .{
         .root_source_file = .{ .cwd_relative = "src/part1.zig" },
         .target = target,
         .optimize = optimize,
     });
 
-    const part2 = b.addExecutable(.{
-        .name = "part2",
-        // In this case the main source file is merely a path, however, in more
-        // complicated build scripts, this could be a generated file.
+    const part2_mod = b.addModule("part2", .{
         .root_source_file = .{ .cwd_relative = "src/part2.zig" },
         .target = target,
         .optimize = optimize,
+    });
+
+    const part1 = b.addExecutable(.{
+        .name = "part1",
+        .root_module = part1_mod,
+    });
+
+    const part2 = b.addExecutable(.{
+        .name = "part2",
+        .root_module = part2_mod,
     });
 
     // This declares intent for the executable to be installed into the
@@ -41,20 +45,12 @@ pub fn build(b: *std.Build) void {
 
     const part1_check = b.addExecutable(.{
         .name = "part1",
-        // In this case the main source file is merely a path, however, in more
-        // complicated build scripts, this could be a generated file.
-        .root_source_file = .{ .cwd_relative = "src/part1.zig" },
-        .target = target,
-        .optimize = .Debug,
+        .root_module = part1_mod,
     });
 
     const part2_check = b.addExecutable(.{
         .name = "part2",
-        // In this case the main source file is merely a path, however, in more
-        // complicated build scripts, this could be a generated file.
-        .root_source_file = .{ .cwd_relative = "src/part2.zig" },
-        .target = target,
-        .optimize = .Debug,
+        .root_module = part2_mod,
     });
 
     const check = b.step("check", "Check if all parts compile");
@@ -93,14 +89,10 @@ pub fn build(b: *std.Build) void {
     // Creates a step for unit testing. This only builds the test executable
     // but does not run it.
     const part1_tests = b.addTest(.{
-        .root_source_file = .{ .cwd_relative = "src/part1.zig" },
-        .target = target,
-        .optimize = optimize,
+        .root_module = part1_mod,
     });
     const part2_tests = b.addTest(.{
-        .root_source_file = .{ .cwd_relative = "src/part2.zig" },
-        .target = target,
-        .optimize = optimize,
+        .root_module = part2_mod,
     });
 
     const run_part1_tests = b.addRunArtifact(part1_tests);
