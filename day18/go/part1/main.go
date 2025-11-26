@@ -14,7 +14,12 @@ func calculate(filepath string) (string, time.Duration) {
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
+	defer func() {
+		err = file.Close()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}()
 
 	result := 0
 	scanner := bufio.NewScanner(file)

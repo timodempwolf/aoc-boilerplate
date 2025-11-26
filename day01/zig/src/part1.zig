@@ -1,11 +1,17 @@
 const std = @import("std");
 const utils = @import("utils.zig");
+const Timer = std.time.Timer;
 
 const Allocator = std.mem.Allocator;
+const Io = std.Io;
 const print = std.debug.print;
 
-fn calculate(path: []const u8, allocator: Allocator) ![]const u8 {
-    const content = try utils.readFile(path, allocator);
+fn calculate(
+    path: []const u8,
+    allocator: Allocator,
+    io: Io,
+) ![]const u8 {
+    const content = try utils.readFile(path, allocator, io);
     var result: usize = 0;
 
     var it = std.mem.tokenizeScalar(u8, content, '\n');
@@ -27,11 +33,15 @@ pub fn main() !void {
     defer _ = arena.deinit();
     const allocator = arena.allocator();
 
-    const start = std.time.nanoTimestamp();
-    const result = try calculate("../input.txt", allocator);
-    const end = std.time.nanoTimestamp();
+    var threaded: std.Io.Threaded = .init(allocator);
+    defer threaded.deinit();
+    const io = threaded.io();
 
-    utils.printResult(result, start, end);
+    var timer = try Timer.start();
+    const result = try calculate("../input.txt", allocator, io);
+    const elapsed = timer.read();
+
+    utils.printResult(result, elapsed);
 }
 
 test "it_works" {
